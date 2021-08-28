@@ -1,4 +1,10 @@
-var playerName = window.prompt("What is your robot's name?");
+//Game States
+// "WIN" - Plyer robot has defeated all enemy robots
+//      * Fight all enemy robots
+//      * Defeat each enmeny robot
+// "LOSE" - Player robot's health is zero or less
+
+ var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
@@ -6,12 +12,12 @@ var playerMoney = 10;
 //You can log multiple values at once: 
 console.log(playerName, playerAttack, playerHealth);
 
-var enemyName = "Roborto";
+var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
-var enemnyAttack = 12;
+var enemyAttack = 12;
 
 //function expression (not declaration) creates a function by assigning it to a variable
-var fight = function() {
+var fight = function(enemyName) {
     //Alert players that round is starting
     window.alert("Welcome to Robot Gladiators!");
 
@@ -57,4 +63,10 @@ var fight = function() {
     
 };
 
-fight();
+// fight(); no longer need
+// for (initial expression; condition) {
+//    statement
+// }
+for(var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
+}

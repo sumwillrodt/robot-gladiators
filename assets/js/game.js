@@ -19,7 +19,7 @@ var enemyAttack = 12;
 //function expression (not declaration) creates a function by assigning it to a variable
 var fight = function(enemyName) {
     // repeat and execute as long as the enemy-robot is alive 
-    while(enemyHealth > 0) {
+    while(enemyHealth > 0 && playerHealth > 0) {
         //Alert players that round is starting
         // window.alert("Welcome to Robot Gladiators!");
 
@@ -27,21 +27,30 @@ var fight = function(enemyName) {
         var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 
             // if player choses to fight, then fight
-        if (promptFight === "fight" || promptFight === "FIGHT") {
+            if (promptFight === "fight" || promptFight === "FIGHT") {
 
             // remove enemy's health
-            enemyHealth = enemyHealth - playerAttack;
+            var damage = randomNumber(playerAttack - 3, playerAttack);
+
+            enemyHealth = Math.max(0, enemyHealth - damage);
             console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.");
 
             // check enemy's health
             if (enemyHealth <= 0) {
                 window.alert(enemyName + " has died!");
+
+                // award player money for winning
+                playerMoney = playerMoney + 20;
+
+                // leave while() loop since enemy is dead
+                break;
             } else {
                 window.alert(enemyName + " still has " + enemyHealth + " health left.");
             }
 
             // remove player's health
-            playerHealth = playerHealth - enemyAttack;
+            var damage = randomNumber(enemyAttack - 3, enemyAttack)
+            playerHealth = Math.max(0, playerHealth - damage);
             console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining.");
 
             // check player's health
@@ -55,7 +64,9 @@ var fight = function(enemyName) {
         } else if (promptFight === "skip" || promptFight === "SKIP") {
             //confirm quitting
             var confirmSkip = window.confirm("Are you sure you want to quit?");
-                if (confirmSkip) {
+            
+            // if yes (true)
+            if (confirmSkip) {
                 window.alert(playerName + " has chosen to skip the fight. Goodbye");
                 playerMoney = playerMoney -2;
             } else {
@@ -77,7 +88,7 @@ var startGame = function () {
         if (playerHealth > 0) {
             window.alert("Welcome to Robot Gladiators! Round "  + ( i + 1 ));
             var pickedEnemyName = enemyNames[i];
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
 
             // call fight function with enemy
             fight(pickedEnemyName);
@@ -173,6 +184,11 @@ var shop = function() {
             shop();
             break;
     }
+}
+
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min +1) + min);
+    return value;
 }
 
 // start game when page loads
